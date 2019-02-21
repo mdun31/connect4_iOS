@@ -14,6 +14,8 @@ class GameScene: SKScene {
     private var board : SKSpriteNode!
     private var baseCoin : SKShapeNode!
     private var winnerLabel : SKLabelNode!
+    
+    private var button: ButtonNode?
     private var dropingCoin : SKShapeNode?
     
     private lazy var coinController: CoinController = { return CoinController() }()
@@ -45,10 +47,7 @@ class GameScene: SKScene {
             fatalError("failed to load label")
         }
         winnerLabel.text = ""
-        winnerLabel.fontSize = 20.0
         self.winnerLabel = winnerLabel
-        
-        
     }
     
     private func generateWalls(atWidth width: CGFloat) {
@@ -103,23 +102,34 @@ class GameScene: SKScene {
             let winner = boardModel.placeInColumn(col: col)
             if let winner = winner, winner > 0 {
                 winnerLabel.text = "Player \(winner) has won"
+                button = ButtonNode(label: "Reset", action:{
+                    
+                }, anchorPoint: CGPoint(x: -8, y: 450))
+                addChild(button!)
                 return
             }
         }
         boardModel.advanceTurns()
     }
     
+    @objc private func resetGame() {
+        
+    }
+    
     //MARK: - Touch Gestures
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+        button?.touchesBegan(touches, with: event)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        button?.touchesMoved(touches, with: event)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        button?.touchesEnded(touches, with: event)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
