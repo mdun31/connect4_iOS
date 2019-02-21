@@ -199,10 +199,17 @@ SWIFT_CLASS("_TtC10Connect4ML11AppDelegate")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class NSCoder;
+
+SWIFT_CLASS("_TtC10Connect4ML10ButtonNode")
+@interface ButtonNode : SKNode
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
 @class SKView;
 @class UITouch;
 @class UIEvent;
-@class NSCoder;
 
 SWIFT_CLASS("_TtC10Connect4ML9GameScene")
 @interface GameScene : SKScene
