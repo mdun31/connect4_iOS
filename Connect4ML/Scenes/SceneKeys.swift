@@ -14,5 +14,4 @@ class SceneKeys {
     
     //MARK: - Image Keys
     static var boardImage = "boardImage"
-    
 }
