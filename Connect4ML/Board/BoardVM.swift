@@ -193,11 +193,19 @@ class BoardVM {
     /**
      * advanceTurns
      * increments turn counter by 1
-     * @param - none
-     * @returns none
      */
     func advanceTurns() {
         BoardVM.turns += 1
+    }
+    
+    /**
+     * resetModel
+     * sets model back to starting values
+     */
+    func resetModel() {
+        gameOver = false
+        BoardVM.turns = 0
+        board = Array(repeating: Array(repeating: 0, count: BoardVM.MAX_ROWS), count: BoardVM.MAX_COLS)
     }
     
 }

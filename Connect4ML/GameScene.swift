@@ -14,9 +14,11 @@ class GameScene: SKScene {
     private var board : SKSpriteNode!
     private var baseCoin : SKShapeNode!
     private var winnerLabel : SKLabelNode!
+    private var boardBase: SKSpriteNode!
     
     private var button: ButtonNode?
     private var dropingCoin : SKShapeNode?
+    private var coinsInPlay: [SKShapeNode] = []
     
     private lazy var coinController: CoinController = { return CoinController() }()
     private lazy var boardModel: BoardVM = { return BoardVM() }()
@@ -25,6 +27,19 @@ class GameScene: SKScene {
     
     //MARK: - Init funcs
     override func didMove(to view: SKView) {
+        //setup the board and board base
+        setupBoardBase()
+        setupBoard()
+        
+        // Create shape node to use during mouse interaction
+        setupCoins()
+        
+        //get the win label
+        setupLabel()
+    }
+    
+    //MARK: - Setup Methods
+    private func setupBoard() {
         guard let board = childNode(withName: SceneKeys.board) as? SKSpriteNode else {
             fatalError("board node not loaded")
         }
@@ -32,22 +47,31 @@ class GameScene: SKScene {
         board.texture = boardTexture
         self.board = board
         boardTop = board.position.y + board.frame.size.height/2
-        
-        // Create shape node to use during mouse interaction
+    }
+    
+    private func setupCoins() {
         let coinRadius = board.size.height/12
         baseCoin = SKShapeNode(circleOfRadius: coinRadius)
         baseCoin.fillColor = .red
         baseCoin.position = CGPoint(x: -1000, y: -1000)
         baseCoin.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: coinRadius*2,
-                                                             height: coinRadius*2))
+                                                                 height: coinRadius*2))
         generateWalls(atWidth: board.size.width/7)
-        
-        //get label
+    }
+    
+    private func setupLabel() {
         guard let winnerLabel = childNode(withName: SceneKeys.winnerLabel) as? SKLabelNode else {
             fatalError("failed to load label")
         }
         winnerLabel.text = ""
         self.winnerLabel = winnerLabel
+    }
+    
+    private func setupBoardBase() {
+        guard let base = childNode(withName: SceneKeys.boardBase) as? SKSpriteNode else {
+            fatalError("failed to load label")
+        }
+        boardBase = base
     }
     
     private func generateWalls(atWidth width: CGFloat) {
@@ -69,6 +93,14 @@ class GameScene: SKScene {
             
             addChild(dividerWall)
         }
+    }
+    
+    private func createResetButton() {
+        button = ButtonNode(label: "Reset", action:{ [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.resetGame()
+            }, anchorPoint: CGPoint(x: -8, y: 450))
+        addChild(button!)
     }
     
     //MARK: - On Touch Methods
@@ -100,20 +132,30 @@ class GameScene: SKScene {
             n.physicsBody?.affectedByGravity = true
             let col = coinController.columnForTouch(xTouchPos: pos.x)
             let winner = boardModel.placeInColumn(col: col)
+            coinsInPlay.append(n)
             if let winner = winner, winner > 0 {
                 winnerLabel.text = "Player \(winner) has won"
-                button = ButtonNode(label: "Reset", action:{
-                    
-                }, anchorPoint: CGPoint(x: -8, y: 450))
-                addChild(button!)
+                createResetButton()
                 return
             }
         }
         boardModel.advanceTurns()
     }
     
-    @objc private func resetGame() {
+    //MARK: - Game State Methods
+    private func resetGame() {
+        boardBase.physicsBody = nil
+    }
+    
+    private func restartGame() {
+        winnerLabel.text = ""
+        boardBase.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: boardBase.frame.size.width,
+                                                                  height: boardBase.frame.size.height))
+        boardBase.physicsBody?.affectedByGravity = false
+        boardBase.physicsBody?.isDynamic = false
+        boardBase.physicsBody?.allowsRotation = false
         
+        button?.removeFromParent()
     }
     
     //MARK: - Touch Gestures
@@ -139,5 +181,13 @@ class GameScene: SKScene {
     //MARK: - Time Counter
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        if boardModel.gameOver {
+            coinsInPlay.filter({ !$0.intersects(board) }).forEach({$0.removeFromParent()})
+            coinsInPlay = coinsInPlay.filter({ $0.intersects(board) })
+            if coinsInPlay.count == 0 {
+                boardModel.resetModel()
+                restartGame()
+            }
+        }
     }
 }
