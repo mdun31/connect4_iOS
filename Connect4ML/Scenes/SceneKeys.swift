@@ -11,6 +11,7 @@ class SceneKeys {
     //MARK: - Scene Keys
     static var winnerLabel = "WinnerLabel"
     static var board = "Board"
+    static var boardBase = "bottom"
     
     //MARK: - Image Keys
     static var boardImage = "boardImage"
