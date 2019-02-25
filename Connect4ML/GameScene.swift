@@ -30,7 +30,7 @@ class GameScene: SKScene {
     private lazy var strategist: GKMinmaxStrategist = {
         let strategist = GKMinmaxStrategist()
         strategist.gameModel = boardModel
-        strategist.maxLookAheadDepth = 5
+        strategist.maxLookAheadDepth = 4
         strategist.randomSource = GKARC4RandomSource()
         return strategist
     }()
@@ -164,6 +164,7 @@ class GameScene: SKScene {
     
     private func endGameIfNecessary(winnerName: String?) -> Bool {
         if let winner = winnerName, winner.count > 0 {
+            boardModel.gameOver = true
             winnerLabel.text = "\(winner) Player has won"
             createResetButton()
             return true

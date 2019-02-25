@@ -17,7 +17,7 @@ class BoardVM: NSObject {
     fileprivate var playerList: [Player] = [Player(color: .red, name: "Red"), Player(color: .yellow, name: "Yellow")]
     var currentPlayer: Player { return playerList[turns%2] }
     
-    private(set) var gameOver = false
+    var gameOver = false
     
     /**
      * placeInColumn
@@ -48,7 +48,6 @@ class BoardVM: NSObject {
         let urDiagonalCheck = upRightDiagonalCount(colStart: col, rowStart: row)
         
         if dlDiagonalCheck + urDiagonalCheck + 1 > 3 {
-            gameOver = true
             return player
         }
         
@@ -56,7 +55,6 @@ class BoardVM: NSObject {
         let drDiagonalCheck = downRightDiagonalCount(colStart: col, rowStart: row)
         
         if ulDiagonalCheck + drDiagonalCheck + 1 > 3 {
-            gameOver = true
             return player
         }
 
@@ -64,12 +62,10 @@ class BoardVM: NSObject {
         let rHorizontalCheck = rightHorizontalCheck(colStart: col, rowStart: row)
         
         if lHorizontalCheck + rHorizontalCheck + 1 > 3 {
-            gameOver = true
             return player
         }
         
         if verticalCheck(colStart: col, rowStart: row) + 1 > 3 {
-            gameOver = true
             return player
         }
         
@@ -221,6 +217,7 @@ extension BoardVM: GKGameModel {
         guard let vm = gameModel as? BoardVM else { return }
         board = vm.board
         turns = vm.turns
+        playerList = vm.playerList
     }
     
     func gameModelUpdates(for player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
@@ -241,8 +238,8 @@ extension BoardVM: GKGameModel {
         
         guard let opponent = playerList.filter({ $0.name != player.name }).first else { return 0 }
         let didHumanWin = winningPlayer(col: opponent.lastMove.column, row: opponent.lastMove.row, player: opponent.name)
-        let humanScore = didHumanWin == opponent.name ? -1000 : 0
-        
+        let humanScore = didHumanWin == opponent.name ? -10000 : 0
+    
         return compScore + humanScore
     }
     
