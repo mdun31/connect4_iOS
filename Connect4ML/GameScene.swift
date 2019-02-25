@@ -25,6 +25,21 @@ class GameScene: SKScene {
     
     private var boardTop: CGFloat = 0
     
+    
+    //MARK: - AI Init
+    private lazy var strategist: GKMinmaxStrategist = {
+        let strategist = GKMinmaxStrategist()
+        strategist.gameModel = boardModel
+        strategist.maxLookAheadDepth = 5
+        strategist.randomSource = GKARC4RandomSource()
+        return strategist
+    }()
+    
+    private var aiMoveColumn: Int {
+        guard let aiMove = strategist.bestMove(for: boardModel.currentPlayer) as? Move else { return 4 }
+        return aiMove.column
+    }
+    
     //MARK: - Init funcs
     override func didMove(to view: SKView) {
         //setup the board and board base
@@ -63,7 +78,7 @@ class GameScene: SKScene {
         guard let winnerLabel = childNode(withName: SceneKeys.winnerLabel) as? SKLabelNode else {
             fatalError("failed to load label")
         }
-        winnerLabel.text = ""
+        winnerLabel.text = "\(boardModel.currentPlayer.name) Player's turn"
         self.winnerLabel = winnerLabel
     }
     
@@ -108,7 +123,7 @@ class GameScene: SKScene {
         if !boardModel.gameOver {
             dropingCoin = baseCoin.copy() as? SKShapeNode
             if let n = dropingCoin {
-                n.fillColor = coinController.coinColor(player: boardModel.playerForTurn)
+                n.fillColor = boardModel.currentPlayer.color
                 let col = coinController.columnForTouch(xTouchPos: pos.x)
                 n.position = CGPoint(x: coinController.xDropPosForCoinColumn(coinCol: col), y: boardTop)
                 n.physicsBody?.affectedByGravity = false
@@ -133,22 +148,35 @@ class GameScene: SKScene {
             let col = coinController.columnForTouch(xTouchPos: pos.x)
             let winner = boardModel.placeInColumn(col: col)
             coinsInPlay.append(n)
-            if let winner = winner, winner > 0 {
-                winnerLabel.text = "Player \(winner) has won"
-                createResetButton()
-                return
-            }
+            if(endGameIfNecessary(winnerName: winner)){ return }
         }
-        boardModel.advanceTurns()
+        if !boardModel.gameOver {
+            continueGame()
+            startAITurn()
+        }
     }
     
     //MARK: - Game State Methods
+    private func continueGame() {
+        boardModel.advanceTurns()
+        winnerLabel.text = "\(boardModel.currentPlayer.name) Player's turn"
+    }
+    
+    private func endGameIfNecessary(winnerName: String?) -> Bool {
+        if let winner = winnerName, winner.count > 0 {
+            winnerLabel.text = "\(winner) Player has won"
+            createResetButton()
+            return true
+        }
+        return false
+    }
+    
     private func resetGame() {
         boardBase.physicsBody = nil
     }
     
     private func restartGame() {
-        winnerLabel.text = ""
+        winnerLabel.text = "\(boardModel.currentPlayer.name) Player's turn"
         boardBase.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: boardBase.frame.size.width,
                                                                   height: boardBase.frame.size.height))
         boardBase.physicsBody?.affectedByGravity = false
@@ -188,6 +216,36 @@ class GameScene: SKScene {
                 boardModel.resetModel()
                 restartGame()
             }
+        }
+    }
+    
+    //MARK: - AI funcs
+    func makeAIMove(col: Int) {
+        dropingCoin = baseCoin.copy() as? SKShapeNode
+        if let n = dropingCoin {
+            n.fillColor = boardModel.currentPlayer.color
+            n.position = CGPoint(x: coinController.xDropPosForCoinColumn(coinCol: col), y: boardTop)
+            n.physicsBody?.affectedByGravity = true
+            addChild(n)
+            let winner = boardModel.placeInColumn(col: col)
+            coinsInPlay.append(n)
+            if(endGameIfNecessary(winnerName: winner)){ return }
+            continueGame()
+        }
+    }
+    
+    func startAITurn() {
+        DispatchQueue.global().async { [unowned self] in
+            let strategistTime = CFAbsoluteTimeGetCurrent()
+            let column = self.aiMoveColumn
+            let delta = CFAbsoluteTimeGetCurrent() - strategistTime
+            
+            let aiTimeCeiling = 1.0
+            let delayTime = aiTimeCeiling - delta
+            DispatchQueue.main.asyncAfter(deadline: .now() + delayTime, execute: {[unowned self] in
+                self.makeAIMove(col: column)
+            })
+            
         }
     }
 }

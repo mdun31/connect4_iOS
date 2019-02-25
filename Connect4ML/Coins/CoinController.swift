@@ -28,11 +28,4 @@ class CoinController {
     func xDropPosForCoinColumn(coinCol: Int) -> CGFloat {
         return (wallXArray[coinCol - 1] + wallXArray[coinCol])/2
     }
-    
-    func coinColor(player: Int) -> UIColor {
-        if player == 2 {
-            return .yellow
-        }
-        return .red
-    }
 }

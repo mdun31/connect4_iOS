@@ -19,6 +19,8 @@
 		48A1202621FFA9DF00FA2C71 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48A1202421FFA9DF00FA2C71 /* LaunchScreen.storyboard */; };
 		48A1203121FFA9DF00FA2C71 /* Connect4MLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A1203021FFA9DF00FA2C71 /* Connect4MLTests.swift */; };
 		48A1203C21FFA9DF00FA2C71 /* Connect4MLUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A1203B21FFA9DF00FA2C71 /* Connect4MLUITests.swift */; };
+		48ABA4B92221D5C500645AF9 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ABA4B82221D5C500645AF9 /* Player.swift */; };
+		48ABA4BC2221E01D00645AF9 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ABA4BB2221E01D00645AF9 /* Move.swift */; };
 		48D1F75E221E2AC600D7CD8E /* SceneKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1F75D221E2AC600D7CD8E /* SceneKeys.swift */; };
 		48D1F761221E2CBD00D7CD8E /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1F760221E2CBD00D7CD8E /* ButtonNode.swift */; };
 /* End PBXBuildFile section */
@@ -59,6 +61,8 @@
 		48A1203721FFA9DF00FA2C71 /* Connect4MLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Connect4MLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A1203B21FFA9DF00FA2C71 /* Connect4MLUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connect4MLUITests.swift; sourceTree = "<group>"; };
 		48A1203D21FFA9DF00FA2C71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48ABA4B82221D5C500645AF9 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		48ABA4BB2221E01D00645AF9 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		48D1F75D221E2AC600D7CD8E /* SceneKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKeys.swift; sourceTree = "<group>"; };
 		48D1F760221E2CBD00D7CD8E /* ButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,11 +133,11 @@
 			children = (
 				48A1201521FFA9DD00FA2C71 /* AppDelegate.swift */,
 				48FFD8BE220BC5AF00BFA0CD /* Assets */,
-				484022AF2210C8A5000B05A4 /* Board */,
 				484022AE2210C89D000B05A4 /* Coins */,
 				48D1F75F221E2CAC00D7CD8E /* Custom UI */,
 				48A1201B21FFA9DD00FA2C71 /* GameScene.swift */,
 				48A1201D21FFA9DD00FA2C71 /* GameViewController.swift */,
+				48ABA4BA2221D7D100645AF9 /* GKModel */,
 				48A1202721FFA9DF00FA2C71 /* Info.plist */,
 				48A1202421FFA9DF00FA2C71 /* LaunchScreen.storyboard */,
 				48A1201F21FFA9DD00FA2C71 /* Main.storyboard */,
@@ -158,6 +162,24 @@
 				48A1203D21FFA9DF00FA2C71 /* Info.plist */,
 			);
 			path = Connect4MLUITests;
+			sourceTree = "<group>";
+		};
+		48ABA4B72221D55D00645AF9 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				48ABA4B82221D5C500645AF9 /* Player.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		48ABA4BA2221D7D100645AF9 /* GKModel */ = {
+			isa = PBXGroup;
+			children = (
+				484022AF2210C8A5000B05A4 /* Board */,
+				48ABA4B72221D55D00645AF9 /* Player */,
+				48ABA4BB2221E01D00645AF9 /* Move.swift */,
+			);
+			path = GKModel;
 			sourceTree = "<group>";
 		};
 		48D1F75F221E2CAC00D7CD8E /* Custom UI */ = {
@@ -320,9 +342,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				48A1201C21FFA9DD00FA2C71 /* GameScene.swift in Sources */,
+				48ABA4BC2221E01D00645AF9 /* Move.swift in Sources */,
 				484022B32210C8F4000B05A4 /* CoinController.swift in Sources */,
 				48D1F75E221E2AC600D7CD8E /* SceneKeys.swift in Sources */,
 				48A1201E21FFA9DD00FA2C71 /* GameViewController.swift in Sources */,
+				48ABA4B92221D5C500645AF9 /* Player.swift in Sources */,
 				48A1201621FFA9DD00FA2C71 /* AppDelegate.swift in Sources */,
 				484022B12210C8BB000B05A4 /* BoardVM.swift in Sources */,
 				48D1F761221E2CBD00D7CD8E /* ButtonNode.swift in Sources */,

@@ -6,14 +6,16 @@
 //  Copyright © 2019 Dunn, Michael R. All rights reserved.
 //
 
-class BoardVM {
-    
-    private static let MAX_ROWS = 6
-    private static let MAX_COLS = 7
+import GameplayKit
+
+class BoardVM: NSObject {
+    fileprivate static let MAX_ROWS = 6
+    fileprivate static let MAX_COLS = 7
 
     private var board:[[Int]] = Array(repeating: Array(repeating: 0, count: BoardVM.MAX_ROWS), count: BoardVM.MAX_COLS)
-    private static var turns: Int = 0
-    var playerForTurn: Int { return BoardVM.turns%2 + 1 }
+    private var turns: Int = 0
+    fileprivate var playerList: [Player] = [Player(color: .red, name: "Red"), Player(color: .yellow, name: "Yellow")]
+    var currentPlayer: Player { return playerList[turns%2] }
     
     private(set) var gameOver = false
     
@@ -23,12 +25,13 @@ class BoardVM {
      * @param - column, which player
      * @returns the player who has won or nil for no winner
      */
-    func placeInColumn(col: Int) -> Int? {
+    func placeInColumn(col: Int) -> String? {
         let normalizedColumn = col - 1
         for row in 0 ... 5 {
             if board[normalizedColumn][row] == 0 {
-                board[normalizedColumn][row] = playerForTurn
-                return winningPlayer(col:normalizedColumn, row:row, player: playerForTurn)
+                board[normalizedColumn][row] = currentPlayer.playerId
+                currentPlayer.lastMove = (normalizedColumn, row)
+                return winningPlayer(col:normalizedColumn, row:row, player: currentPlayer.name)
             }
         }
         return nil
@@ -40,7 +43,7 @@ class BoardVM {
      * @param - none
      * @returns the player who has won or nil for no winner
      */
-    func winningPlayer(col: Int, row: Int, player: Int) -> Int? {
+    func winningPlayer(col: Int, row: Int, player: String) -> String? {
         let dlDiagonalCheck = downLeftDiagonalCount(colStart: col, rowStart: row)
         let urDiagonalCheck = upRightDiagonalCount(colStart: col, rowStart: row)
         
@@ -195,7 +198,7 @@ class BoardVM {
      * increments turn counter by 1
      */
     func advanceTurns() {
-        BoardVM.turns += 1
+        turns += 1
     }
     
     /**
@@ -204,8 +207,54 @@ class BoardVM {
      */
     func resetModel() {
         gameOver = false
-        BoardVM.turns = 0
+        turns = 0
         board = Array(repeating: Array(repeating: 0, count: BoardVM.MAX_ROWS), count: BoardVM.MAX_COLS)
     }
+}
+
+extension BoardVM: GKGameModel {
+    var players: [GKGameModelPlayer]? { return playerList }
     
+    var activePlayer: GKGameModelPlayer? { return currentPlayer }
+    
+    func setGameModel(_ gameModel: GKGameModel) {
+        guard let vm = gameModel as? BoardVM else { return }
+        board = vm.board
+        turns = vm.turns
+    }
+    
+    func gameModelUpdates(for player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
+        guard let _ = player as? Player, !gameOver else { return nil }
+        var moveList:[Move] = []
+        for i in 1...board.count {
+            if board[i-1][BoardVM.MAX_ROWS-1] == 0 {
+                moveList.append(Move(col: i))
+            }
+        }
+        return moveList
+    }
+    
+    func score(for player: GKGameModelPlayer) -> Int {
+        guard let player = player as? Player else { return 0 }
+        let didCompWin = winningPlayer(col: player.lastMove.column, row: player.lastMove.row, player: player.name)
+        let compScore = didCompWin == player.name ? 1000 : 0
+        
+        guard let opponent = playerList.filter({ $0.name != player.name }).first else { return 0 }
+        let didHumanWin = winningPlayer(col: opponent.lastMove.column, row: opponent.lastMove.row, player: opponent.name)
+        let humanScore = didHumanWin == opponent.name ? -1000 : 0
+        
+        return compScore + humanScore
+    }
+    
+    func apply(_ gameModelUpdate: GKGameModelUpdate) {
+        guard let move = gameModelUpdate as? Move else { return }
+        _ = placeInColumn(col: move.column)
+        advanceTurns()
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copyVM = BoardVM()
+        copyVM.setGameModel(self)
+        return copyVM
+    }
 }
