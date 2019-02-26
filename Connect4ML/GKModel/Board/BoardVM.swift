@@ -44,10 +44,8 @@ class BoardVM: NSObject {
      * @returns the player who has won or nil for no winner
      */
     func winningPlayer(col: Int, row: Int, player: String) -> String? {
-        let dlDiagonalCheck = downLeftDiagonalCount(colStart: col, rowStart: row)
-        let urDiagonalCheck = upRightDiagonalCount(colStart: col, rowStart: row)
         
-        if dlDiagonalCheck + urDiagonalCheck + 1 > 3 {
+        if forwardDiagonalScore(colStart: col, rowStart: row) + 1 > 3 {
             return player
         }
         
@@ -58,22 +56,23 @@ class BoardVM: NSObject {
             return player
         }
 
-        let lHorizontalCheck = leftHorizontalCheck(colStart: col, rowStart: row)
-        let rHorizontalCheck = rightHorizontalCheck(colStart: col, rowStart: row)
-        
-        if lHorizontalCheck + rHorizontalCheck + 1 > 3 {
+        if horizontalScore(colStart: col, rowStart: row) + 1 > 3 {
             return player
         }
         
-        if verticalCheck(colStart: col, rowStart: row) + 1 > 3 {
+        if verticalScore(colStart: col, rowStart: row) + 1 > 3 {
             return player
         }
         
         return nil
     }
     
-    //MARK Horizontal Checks
-    private func leftHorizontalCheck(colStart: Int,rowStart: Int) -> Int {
+    //MARK: - Horizontal Checks
+    fileprivate func horizontalScore(colStart: Int, rowStart: Int) -> Int {
+        return leftHorizontalCheck(colStart:colStart, rowStart:rowStart) + rightHorizontalCheck(colStart:colStart, rowStart:rowStart)
+    }
+    
+    private func leftHorizontalCheck(colStart: Int, rowStart: Int) -> Int {
         var sequenceNumber = 0
         var col = colStart - 1
         let player = board[colStart][rowStart]
@@ -103,8 +102,8 @@ class BoardVM: NSObject {
         return sequenceNumber
     }
     
-    //MARK Vertical Check
-    private func verticalCheck(colStart: Int, rowStart: Int) -> Int {
+    //MARK: - Vertical Check
+    private func verticalScore(colStart: Int, rowStart: Int) -> Int {
         var sequenceNumber = 0
         var row = rowStart - 1
         let player = board[colStart][rowStart]
@@ -119,7 +118,11 @@ class BoardVM: NSObject {
         return sequenceNumber
     }
     
-    //MARK / diagonal check
+    //MARK: - / diagonal check
+    private func forwardDiagonalScore(colStart: Int, rowStart: Int) -> Int {
+        return downLeftDiagonalCount(colStart:colStart, rowStart:rowStart) + upRightDiagonalCount(colStart:colStart, rowStart:rowStart)
+    }
+    
     private func downLeftDiagonalCount(colStart: Int, rowStart: Int) -> Int {
         var sequenceNumber = 0
         var row = rowStart + 1
@@ -154,7 +157,11 @@ class BoardVM: NSObject {
         return sequenceNumber
     }
     
-    //MARK \ diagonal check
+    //MARK: - \ diagonal check
+    private func backwardDiagonalScore(colStart: Int, rowStart: Int) -> Int {
+        return upLeftDiagonalCount(colStart:colStart, rowStart:rowStart) + downRightDiagonalCount(colStart:colStart, rowStart:rowStart)
+    }
+    
     private func upLeftDiagonalCount(colStart: Int, rowStart: Int) -> Int {
         var sequenceNumber = 0
         var row = rowStart + 1
@@ -188,7 +195,12 @@ class BoardVM: NSObject {
         }
         return sequenceNumber
     }
-    
+    //MARK: - Total Score
+    fileprivate func getTotalScore(col: Int, row:Int) -> Int {
+        return verticalScore(colStart: col, rowStart: row) + horizontalScore(colStart: col, rowStart: row) +
+            forwardDiagonalScore(colStart: col, rowStart: row) + backwardDiagonalScore(colStart: col, rowStart: row)
+    }
+    //MARK: - Model states
     /**
      * advanceTurns
      * increments turn counter by 1
@@ -209,6 +221,7 @@ class BoardVM: NSObject {
     }
 }
 
+//MARK: - Game Model -
 extension BoardVM: GKGameModel {
     var players: [GKGameModelPlayer]? { return playerList }
     
@@ -247,7 +260,13 @@ extension BoardVM: GKGameModel {
         } else if isLoss(for: player) {
             return -1000
         } else {
-            return 0
+            guard let player = player as? Player,
+                let playerCol = player.lastMove.column,
+                let playerRow = player.lastMove.row,
+                let opponent = playerList.filter({ $0.name != player.name }).first,
+                let oppCol = opponent.lastMove.column,
+                let oppRow = opponent.lastMove.row else { return 0 }
+            return getTotalScore(col: playerCol, row: playerRow) - getTotalScore(col: oppRow, row: oppCol)
         }
     }
     
