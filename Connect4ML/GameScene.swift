@@ -16,7 +16,7 @@ class GameScene: SKScene {
     private var winnerLabel : SKLabelNode!
     private var boardBase: SKSpriteNode!
     
-    private var button: ButtonNode?
+    private var resetButton: ButtonNode?
     private var dropingCoin : SKShapeNode?
     private var coinsInPlay: [SKShapeNode] = []
     
@@ -24,8 +24,10 @@ class GameScene: SKScene {
     private lazy var boardModel: BoardVM = { return BoardVM() }()
     
     private var boardTop: CGFloat = 0
+    private var aiToggleButton: ButtonNode!
     
-    
+    var allowAIMoves: Bool = false
+
     //MARK: - AI Init
     private lazy var strategist: GKMinmaxStrategist = {
         let strategist = GKMinmaxStrategist()
@@ -51,6 +53,9 @@ class GameScene: SKScene {
         
         //get the win label
         setupLabel()
+        
+        //setup ai button
+        createAIToggleButton()
     }
     
     //MARK: - Setup Methods
@@ -111,16 +116,24 @@ class GameScene: SKScene {
     }
     
     private func createResetButton() {
-        button = ButtonNode(label: "Reset", action:{ [weak self] in
+        resetButton = ButtonNode(label: "Reset", action:{ [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.resetGame()
             }, anchorPoint: CGPoint(x: -8, y: 450))
-        addChild(button!)
+        addChild(resetButton!)
+    }
+    
+    private func createAIToggleButton() {
+        aiToggleButton = ButtonNode(label: "Enable/Disable AI", action: { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.allowAIMoves = !strongSelf.allowAIMoves
+            }, anchorPoint: CGPoint(x: -8, y: -600))
+        addChild(aiToggleButton)
     }
     
     //MARK: - On Touch Methods
     func touchDown(atPoint pos : CGPoint) {
-        if !boardModel.gameOver {
+        if !boardModel.gameOver && pos.y > -500 {
             dropingCoin = baseCoin.copy() as? SKShapeNode
             if let n = dropingCoin {
                 n.fillColor = boardModel.currentPlayer.color
@@ -150,9 +163,11 @@ class GameScene: SKScene {
             coinsInPlay.append(n)
             if(endGameIfNecessary(winnerName: winner)){ return }
         }
-        if !boardModel.gameOver {
+        if !boardModel.gameOver && pos.y > -500  {
             continueGame()
-            startAITurn()
+            if allowAIMoves {
+                startAITurn()
+            }
         }
     }
     
@@ -184,23 +199,26 @@ class GameScene: SKScene {
         boardBase.physicsBody?.isDynamic = false
         boardBase.physicsBody?.allowsRotation = false
         
-        button?.removeFromParent()
+        resetButton?.removeFromParent()
     }
     
     //MARK: - Touch Gestures
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-        button?.touchesBegan(touches, with: event)
+        resetButton?.touchesBegan(touches, with: event)
+        aiToggleButton.touchesBegan(touches, with: event)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-        button?.touchesMoved(touches, with: event)
+        resetButton?.touchesMoved(touches, with: event)
+        aiToggleButton.touchesMoved(touches, with: event)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-        button?.touchesEnded(touches, with: event)
+        resetButton?.touchesEnded(touches, with: event)
+        aiToggleButton.touchesEnded(touches, with: event)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {

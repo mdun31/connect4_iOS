@@ -17,10 +17,10 @@ class ButtonNode: SKNode {
     
     init(label: String, action:@escaping ()->Void, anchorPoint: CGPoint) {
         onTouchUpAction = action
-        buttonSprite = SKSpriteNode(color: .gray, size: CGSize(width: 200, height: 50))
         labelNode = SKLabelNode(text: label)
         labelNode.color = .black
         labelNode.position = CGPoint(x: 0, y: -12.5)
+        buttonSprite = SKSpriteNode(color: .gray, size: CGSize(width: labelNode.frame.width + 20, height: 50))
         super.init()
         
         addChild(buttonSprite)
