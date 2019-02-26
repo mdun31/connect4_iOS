@@ -205,6 +205,7 @@ class BoardVM: NSObject {
         gameOver = false
         turns = 0
         board = Array(repeating: Array(repeating: 0, count: BoardVM.MAX_ROWS), count: BoardVM.MAX_COLS)
+        playerList = [Player(color: .red, name: "Red"), Player(color: .yellow, name: "Yellow")]
     }
 }
 
@@ -217,7 +218,16 @@ extension BoardVM: GKGameModel {
         guard let vm = gameModel as? BoardVM else { return }
         board = vm.board
         turns = vm.turns
-        playerList = vm.playerList
+
+        guard let redPlayer = playerList.filter({$0.name == "Red"}).first else { return }
+        let copyRed = Player(color: .red, name: "Red")
+        copyRed.lastMove = redPlayer.lastMove
+        
+        guard let yellowPlayer = playerList.filter({$0.name == "Yellow"}).first else { return }
+        let copyYellow = Player(color: .yellow, name: "Yellow")
+        copyYellow.lastMove = yellowPlayer.lastMove
+        
+        playerList = [copyRed, copyYellow]
     }
     
     func gameModelUpdates(for player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
@@ -232,15 +242,29 @@ extension BoardVM: GKGameModel {
     }
     
     func score(for player: GKGameModelPlayer) -> Int {
-        guard let player = player as? Player else { return 0 }
-        let didCompWin = winningPlayer(col: player.lastMove.column, row: player.lastMove.row, player: player.name)
-        let compScore = didCompWin == player.name ? 1000 : 0
-        
-        guard let opponent = playerList.filter({ $0.name != player.name }).first else { return 0 }
-        let didHumanWin = winningPlayer(col: opponent.lastMove.column, row: opponent.lastMove.row, player: opponent.name)
-        let humanScore = didHumanWin == opponent.name ? -10000 : 0
+        if isWin(for: player) {
+            return 1000
+        } else if isLoss(for: player) {
+            return -1000
+        } else {
+            return 0
+        }
+    }
     
-        return compScore + humanScore
+    func isWin(for player: GKGameModelPlayer) -> Bool {
+        guard let player = player as? Player,
+            let col = player.lastMove.column, let row = player.lastMove.row else { return false }
+        let didCompWin = winningPlayer(col: col, row: row, player: player.name)
+        return didCompWin == player.name
+    }
+    
+    func isLoss(for player: GKGameModelPlayer) -> Bool {
+        guard let player = player as? Player,
+            let opponent = playerList.filter({ $0.name != player.name }).first,
+            let col = opponent.lastMove.column, let row = opponent.lastMove.row else { return false }
+        let didHumanWin = winningPlayer(col: col, row: row, player: opponent.name)
+        return didHumanWin == opponent.name
+        
     }
     
     func apply(_ gameModelUpdate: GKGameModelUpdate) {

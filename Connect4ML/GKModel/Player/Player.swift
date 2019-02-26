@@ -12,7 +12,7 @@ class Player: NSObject, GKGameModelPlayer {
     var playerId: Int
     var color: UIColor
     var name: String
-    var lastMove: (column: Int, row: Int) = (0,0)
+    var lastMove: (column: Int?, row: Int?) = (nil,nil)
     
     init(color: UIColor, name: String) {
         self.color = color

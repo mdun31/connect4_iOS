@@ -30,8 +30,8 @@ class GameScene: SKScene {
     private lazy var strategist: GKMinmaxStrategist = {
         let strategist = GKMinmaxStrategist()
         strategist.gameModel = boardModel
-        strategist.maxLookAheadDepth = 4
-        strategist.randomSource = GKARC4RandomSource()
+        strategist.maxLookAheadDepth = 5
+        strategist.randomSource = GKLinearCongruentialRandomSource()
         return strategist
     }()
     
