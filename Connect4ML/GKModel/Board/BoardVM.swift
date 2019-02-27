@@ -49,10 +49,7 @@ class BoardVM: NSObject {
             return player
         }
         
-        let ulDiagonalCheck = upLeftDiagonalCount(colStart: col, rowStart: row)
-        let drDiagonalCheck = downRightDiagonalCount(colStart: col, rowStart: row)
-        
-        if ulDiagonalCheck + drDiagonalCheck + 1 > 3 {
+        if backwardDiagonalScore(colStart: col, rowStart: row) + 1 > 3 {
             return player
         }
 
@@ -262,11 +259,11 @@ extension BoardVM: GKGameModel {
         } else {
             guard let player = player as? Player,
                 let playerCol = player.lastMove.column,
-                let playerRow = player.lastMove.row,
-                let opponent = playerList.filter({ $0.name != player.name }).first,
-                let oppCol = opponent.lastMove.column,
-                let oppRow = opponent.lastMove.row else { return 0 }
-            return getTotalScore(col: playerCol, row: playerRow) - getTotalScore(col: oppRow, row: oppCol)
+                let playerRow = player.lastMove.row else { return 0 }
+//            let opponent = playerList.filter({ $0.name != player.name }).first,
+//            let oppCol = opponent.lastMove.column,
+//            let oppRow = opponent.lastMove.row
+            return getTotalScore(col: playerCol, row: playerRow)// - getTotalScore(col: oppRow, row: oppCol)
         }
     }
     
