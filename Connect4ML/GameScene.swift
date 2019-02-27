@@ -119,15 +119,16 @@ class GameScene: SKScene {
         resetButton = ButtonNode(label: "Reset", action:{ [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.resetGame()
-            }, anchorPoint: CGPoint(x: -8, y: 450))
+            }, anchorPoint: CGPoint(x: 0, y: 450))
         addChild(resetButton!)
     }
     
     private func createAIToggleButton() {
-        aiToggleButton = ButtonNode(label: "Enable/Disable AI", action: { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.allowAIMoves = !strongSelf.allowAIMoves
-            }, anchorPoint: CGPoint(x: -8, y: -600))
+        aiToggleButton = ButtonNode(label: "Enable/Disable AI", action: { [unowned self] in
+            self.allowAIMoves = !self.allowAIMoves
+            self.aiToggleButton.bgColor = self.allowAIMoves ? .green : .red
+            }, anchorPoint: CGPoint(x: 0, y: -600))
+        aiToggleButton.bgColor = .red
         addChild(aiToggleButton)
     }
     

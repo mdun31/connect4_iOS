@@ -14,13 +14,20 @@ class ButtonNode: SKNode {
     var onTouchUpAction: (() -> Void)
     var buttonSprite: SKSpriteNode
     var labelNode: SKLabelNode
+    var bgColor: UIColor = .gray {
+        didSet {
+            buttonSprite.color = bgColor
+        }
+    }
+    
+    var bgHighlightColor: UIColor { return bgColor.withAlphaComponent(0.5) }
     
     init(label: String, action:@escaping ()->Void, anchorPoint: CGPoint) {
         onTouchUpAction = action
         labelNode = SKLabelNode(text: label)
-        labelNode.color = .black
+        labelNode.fontColor = .black
         labelNode.position = CGPoint(x: 0, y: -12.5)
-        buttonSprite = SKSpriteNode(color: .gray, size: CGSize(width: labelNode.frame.width + 20, height: 50))
+        buttonSprite = SKSpriteNode(color: bgColor, size: CGSize(width: labelNode.frame.width + 20, height: 50))
         super.init()
         
         addChild(buttonSprite)
@@ -42,9 +49,9 @@ class ButtonNode: SKNode {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         if buttonSprite.contains(touch.location(in: self)) {
-            buttonSprite.color = .lightGray
+            buttonSprite.color = bgHighlightColor
         } else {
-            buttonSprite.color = .gray
+            buttonSprite.color = bgColor
         }
     }
     
@@ -53,6 +60,6 @@ class ButtonNode: SKNode {
         if buttonSprite.contains(touch.location(in: self)) {
             onTouchUpAction()
         }
-        buttonSprite.color = .gray
+        buttonSprite.color = bgColor
     }
 }
