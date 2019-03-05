@@ -33,7 +33,7 @@ class GameScene: SKScene {
         let strategist = GKMinmaxStrategist()
         strategist.gameModel = boardModel
         strategist.maxLookAheadDepth = 5
-        strategist.randomSource = GKARC4RandomSource()
+        strategist.randomSource = nil
         return strategist
     }()
     

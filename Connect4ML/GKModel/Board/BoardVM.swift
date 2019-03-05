@@ -260,10 +260,7 @@ extension BoardVM: GKGameModel {
             guard let player = player as? Player,
                 let playerCol = player.lastMove.column,
                 let playerRow = player.lastMove.row else { return 0 }
-//            let opponent = playerList.filter({ $0.name != player.name }).first,
-//            let oppCol = opponent.lastMove.column,
-//            let oppRow = opponent.lastMove.row
-            return getTotalScore(col: playerCol, row: playerRow)// - getTotalScore(col: oppRow, row: oppCol)
+            return getTotalScore(col: playerCol, row: playerRow)
         }
     }
     
