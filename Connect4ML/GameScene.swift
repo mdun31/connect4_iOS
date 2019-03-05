@@ -265,7 +265,6 @@ class GameScene: SKScene {
             DispatchQueue.main.asyncAfter(deadline: .now() + delayTime, execute: {[unowned self] in
                 self.makeAIMove(col: column)
             })
-            
         }
     }
 }
