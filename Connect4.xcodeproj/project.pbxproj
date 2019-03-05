@@ -45,7 +45,7 @@
 /* Begin PBXFileReference section */
 		484022B02210C8BB000B05A4 /* BoardVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardVM.swift; sourceTree = "<group>"; };
 		484022B22210C8F4000B05A4 /* CoinController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinController.swift; sourceTree = "<group>"; };
-		48A1201221FFA9DD00FA2C71 /* Connect4ML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connect4ML.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		48A1201221FFA9DD00FA2C71 /* Connect4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connect4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A1201521FFA9DD00FA2C71 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48A1201721FFA9DD00FA2C71 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		48A1201921FFA9DD00FA2C71 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -55,10 +55,10 @@
 		48A1202221FFA9DF00FA2C71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		48A1202521FFA9DF00FA2C71 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		48A1202721FFA9DF00FA2C71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		48A1202C21FFA9DF00FA2C71 /* Connect4MLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Connect4MLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		48A1202C21FFA9DF00FA2C71 /* Connect4Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Connect4Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A1203021FFA9DF00FA2C71 /* Connect4MLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connect4MLTests.swift; sourceTree = "<group>"; };
 		48A1203221FFA9DF00FA2C71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		48A1203721FFA9DF00FA2C71 /* Connect4MLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Connect4MLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		48A1203721FFA9DF00FA2C71 /* Connect4UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Connect4UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48A1203B21FFA9DF00FA2C71 /* Connect4MLUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connect4MLUITests.swift; sourceTree = "<group>"; };
 		48A1203D21FFA9DF00FA2C71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48ABA4B82221D5C500645AF9 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -111,9 +111,9 @@
 		48A1200921FFA9DD00FA2C71 = {
 			isa = PBXGroup;
 			children = (
-				48A1201421FFA9DD00FA2C71 /* Connect4ML */,
-				48A1202F21FFA9DF00FA2C71 /* Connect4MLTests */,
-				48A1203A21FFA9DF00FA2C71 /* Connect4MLUITests */,
+				48A1201421FFA9DD00FA2C71 /* Connect4 */,
+				48A1202F21FFA9DF00FA2C71 /* Connect4Tests */,
+				48A1203A21FFA9DF00FA2C71 /* Connect4UITests */,
 				48A1201321FFA9DD00FA2C71 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -121,14 +121,14 @@
 		48A1201321FFA9DD00FA2C71 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				48A1201221FFA9DD00FA2C71 /* Connect4ML.app */,
-				48A1202C21FFA9DF00FA2C71 /* Connect4MLTests.xctest */,
-				48A1203721FFA9DF00FA2C71 /* Connect4MLUITests.xctest */,
+				48A1201221FFA9DD00FA2C71 /* Connect4.app */,
+				48A1202C21FFA9DF00FA2C71 /* Connect4Tests.xctest */,
+				48A1203721FFA9DF00FA2C71 /* Connect4UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		48A1201421FFA9DD00FA2C71 /* Connect4ML */ = {
+		48A1201421FFA9DD00FA2C71 /* Connect4 */ = {
 			isa = PBXGroup;
 			children = (
 				48A1201521FFA9DD00FA2C71 /* AppDelegate.swift */,
@@ -143,25 +143,25 @@
 				48A1201F21FFA9DD00FA2C71 /* Main.storyboard */,
 				48FFD8BF220BC5B900BFA0CD /* Scenes */,
 			);
-			path = Connect4ML;
+			path = Connect4;
 			sourceTree = "<group>";
 		};
-		48A1202F21FFA9DF00FA2C71 /* Connect4MLTests */ = {
+		48A1202F21FFA9DF00FA2C71 /* Connect4Tests */ = {
 			isa = PBXGroup;
 			children = (
 				48A1203021FFA9DF00FA2C71 /* Connect4MLTests.swift */,
 				48A1203221FFA9DF00FA2C71 /* Info.plist */,
 			);
-			path = Connect4MLTests;
+			path = Connect4Tests;
 			sourceTree = "<group>";
 		};
-		48A1203A21FFA9DF00FA2C71 /* Connect4MLUITests */ = {
+		48A1203A21FFA9DF00FA2C71 /* Connect4UITests */ = {
 			isa = PBXGroup;
 			children = (
 				48A1203B21FFA9DF00FA2C71 /* Connect4MLUITests.swift */,
 				48A1203D21FFA9DF00FA2C71 /* Info.plist */,
 			);
-			path = Connect4MLUITests;
+			path = Connect4UITests;
 			sourceTree = "<group>";
 		};
 		48ABA4B72221D55D00645AF9 /* Player */ = {
@@ -211,9 +211,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		48A1201121FFA9DD00FA2C71 /* Connect4ML */ = {
+		48A1201121FFA9DD00FA2C71 /* Connect4 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 48A1204021FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4ML" */;
+			buildConfigurationList = 48A1204021FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4" */;
 			buildPhases = (
 				48A1200E21FFA9DD00FA2C71 /* Sources */,
 				48A1200F21FFA9DD00FA2C71 /* Frameworks */,
@@ -223,14 +223,14 @@
 			);
 			dependencies = (
 			);
-			name = Connect4ML;
+			name = Connect4;
 			productName = Connect4ML;
-			productReference = 48A1201221FFA9DD00FA2C71 /* Connect4ML.app */;
+			productReference = 48A1201221FFA9DD00FA2C71 /* Connect4.app */;
 			productType = "com.apple.product-type.application";
 		};
-		48A1202B21FFA9DF00FA2C71 /* Connect4MLTests */ = {
+		48A1202B21FFA9DF00FA2C71 /* Connect4Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 48A1204321FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4MLTests" */;
+			buildConfigurationList = 48A1204321FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4Tests" */;
 			buildPhases = (
 				48A1202821FFA9DF00FA2C71 /* Sources */,
 				48A1202921FFA9DF00FA2C71 /* Frameworks */,
@@ -241,14 +241,14 @@
 			dependencies = (
 				48A1202E21FFA9DF00FA2C71 /* PBXTargetDependency */,
 			);
-			name = Connect4MLTests;
+			name = Connect4Tests;
 			productName = Connect4MLTests;
-			productReference = 48A1202C21FFA9DF00FA2C71 /* Connect4MLTests.xctest */;
+			productReference = 48A1202C21FFA9DF00FA2C71 /* Connect4Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		48A1203621FFA9DF00FA2C71 /* Connect4MLUITests */ = {
+		48A1203621FFA9DF00FA2C71 /* Connect4UITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 48A1204621FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4MLUITests" */;
+			buildConfigurationList = 48A1204621FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4UITests" */;
 			buildPhases = (
 				48A1203321FFA9DF00FA2C71 /* Sources */,
 				48A1203421FFA9DF00FA2C71 /* Frameworks */,
@@ -259,9 +259,9 @@
 			dependencies = (
 				48A1203921FFA9DF00FA2C71 /* PBXTargetDependency */,
 			);
-			name = Connect4MLUITests;
+			name = Connect4UITests;
 			productName = Connect4MLUITests;
-			productReference = 48A1203721FFA9DF00FA2C71 /* Connect4MLUITests.xctest */;
+			productReference = 48A1203721FFA9DF00FA2C71 /* Connect4UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -287,7 +287,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 48A1200D21FFA9DD00FA2C71 /* Build configuration list for PBXProject "Connect4ML" */;
+			buildConfigurationList = 48A1200D21FFA9DD00FA2C71 /* Build configuration list for PBXProject "Connect4" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -300,9 +300,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				48A1201121FFA9DD00FA2C71 /* Connect4ML */,
-				48A1202B21FFA9DF00FA2C71 /* Connect4MLTests */,
-				48A1203621FFA9DF00FA2C71 /* Connect4MLUITests */,
+				48A1201121FFA9DD00FA2C71 /* Connect4 */,
+				48A1202B21FFA9DF00FA2C71 /* Connect4Tests */,
+				48A1203621FFA9DF00FA2C71 /* Connect4UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -374,12 +374,12 @@
 /* Begin PBXTargetDependency section */
 		48A1202E21FFA9DF00FA2C71 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 48A1201121FFA9DD00FA2C71 /* Connect4ML */;
+			target = 48A1201121FFA9DD00FA2C71 /* Connect4 */;
 			targetProxy = 48A1202D21FFA9DF00FA2C71 /* PBXContainerItemProxy */;
 		};
 		48A1203921FFA9DF00FA2C71 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 48A1201121FFA9DD00FA2C71 /* Connect4ML */;
+			target = 48A1201121FFA9DD00FA2C71 /* Connect4 */;
 			targetProxy = 48A1203821FFA9DF00FA2C71 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -527,12 +527,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MCY37TREWE;
-				INFOPLIST_FILE = Connect4ML/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Connect4/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ncr.connect-four.Connect4ML";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ncr.connect-four.Connect4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -546,12 +546,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MCY37TREWE;
-				INFOPLIST_FILE = Connect4ML/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Connect4/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ncr.connect-four.Connect4ML";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ncr.connect-four.Connect4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -575,7 +575,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Connect4ML.app/Connect4ML";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Connect4.app/Connect4";
 			};
 			name = Debug;
 		};
@@ -596,7 +596,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Connect4ML.app/Connect4ML";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Connect4.app/Connect4";
 			};
 			name = Release;
 		};
@@ -643,7 +643,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		48A1200D21FFA9DD00FA2C71 /* Build configuration list for PBXProject "Connect4ML" */ = {
+		48A1200D21FFA9DD00FA2C71 /* Build configuration list for PBXProject "Connect4" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				48A1203E21FFA9DF00FA2C71 /* Debug */,
@@ -652,7 +652,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		48A1204021FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4ML" */ = {
+		48A1204021FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				48A1204121FFA9DF00FA2C71 /* Debug */,
@@ -661,7 +661,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		48A1204321FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4MLTests" */ = {
+		48A1204321FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				48A1204421FFA9DF00FA2C71 /* Debug */,
@@ -670,7 +670,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		48A1204621FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4MLUITests" */ = {
+		48A1204621FFA9DF00FA2C71 /* Build configuration list for PBXNativeTarget "Connect4UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				48A1204721FFA9DF00FA2C71 /* Debug */,

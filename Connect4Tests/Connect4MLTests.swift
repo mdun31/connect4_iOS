@@ -1,15 +1,15 @@
 //
-//  Connect4MLTests.swift
-//  Connect4MLTests
+//  Connect4Tests.swift
+//  Connect4Tests
 //
 //  Created by Dunn, Michael R on 1/28/19.
 //  Copyright © 2019 Dunn, Michael R. All rights reserved.
 //
 
 import XCTest
-@testable import Connect4ML
+@testable import Connect4
 
-class Connect4MLTests: XCTestCase {
+class Connect4Tests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

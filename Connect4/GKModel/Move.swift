@@ -1,6 +1,6 @@
 //
 //  Move.swift
-//  Connect4ML
+//  Connect4
 //
 //  Created by Dunn, Michael R on 2/23/19.
 //  Copyright © 2019 Dunn, Michael R. All rights reserved.
